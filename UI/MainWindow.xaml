@@ -1,0 +1,604 @@
+﻿<Window x:Class="UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="600">
+    <Border Margin="10">
+        <TabControl Margin="0 0 0 60">
+            <!-- Players-tab -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock 
+                        Text="Spillere"
+                        FontWeight="Bold"/>
+                </TabItem.Header>
+
+                <StackPanel>
+                    <Grid Margin="0 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel 
+                            Grid.Column="0"
+                            Margin="0 0 10 75">
+                            <Label
+                                Content="Navn"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtPlayername"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                            <Label
+                                Content="Rang"
+                                FontWeight="Bold"/>
+                            <ComboBox
+                                x:Name="cbxRank"
+                                Height="25"
+                                Width="130"
+                                Padding="2"
+                                Margin="0 -2.5 0 7.5"
+                                HorizontalAlignment="Left">
+                                <ComboBoxItem 
+                                    Content="Unranked"/>
+                                <ComboBoxItem 
+                                    Content="Iron"/>
+                                <ComboBoxItem 
+                                    Content="Bronze"/>
+                                <ComboBoxItem 
+                                    Content="Silver"/>
+                                <ComboBoxItem 
+                                    Content="Gold"/>
+                                <ComboBoxItem 
+                                    Content="Diamond"/>
+                                <ComboBoxItem 
+                                    Content="Platinum"/>
+                                <ComboBoxItem 
+                                    Content="Master"/>
+                                <ComboBoxItem 
+                                    Content="Grandmaster"/>
+                                <ComboBoxItem 
+                                    Content="Challenger"/>
+                            </ComboBox>
+                            <Label
+                                Content="Turneringstype"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Left"
+                                Width="110"/>
+                            <ComboBox 
+                                x:Name="cbxTournamenttype"
+                                Height="25"
+                                Width="60"
+                                HorizontalAlignment="Left">
+                                <ComboBoxItem 
+                                    Content="1v1"/>
+                                <ComboBoxItem 
+                                    Content="3v3"/>
+                                <ComboBoxItem 
+                                    Content="5v5"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="10 0 0 75">
+                            <Label
+                                Content="In-game navn"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtIngameName"
+                                Padding="2"
+                                Margin="0 -2.5 20 7.5"/>
+                            <Label
+                                Content="Telefonnummer"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtPlayerPhonenumber"
+                                Padding="2"
+                                Margin="0 -2.5 20 12.5"/>
+                            <Label
+                                Content="Region"
+                                FontWeight="Bold"/>
+                            <ComboBox 
+                                x:Name="cbxRegion"
+                                Height="25"
+                                Width="80"
+                                HorizontalAlignment="Left">
+                                <ComboBoxItem 
+                                    Content="RU"/>
+                                <ComboBoxItem 
+                                    Content="KR"/>
+                                <ComboBoxItem 
+                                    Content="BR1"/>
+                                <ComboBoxItem 
+                                    Content="OC1"/>
+                                <ComboBoxItem 
+                                    Content="JP1"/>
+                                <ComboBoxItem 
+                                    Content="NA1"/>
+                                <ComboBoxItem 
+                                    Content="EUN1"/>
+                                <ComboBoxItem 
+                                    Content="EUW1"/>
+                                <ComboBoxItem 
+                                    Content="TR1"/>
+                                <ComboBoxItem 
+                                    Content="LA1"/>
+                                <ComboBoxItem 
+                                    Content="LA2"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid 
+                        x:Name="dgPlayers"
+                        Height="223"
+                        Margin="0,0,-0.4,7.5"
+                        RenderTransformOrigin="0.5,0.5"
+                        IsReadOnly="True"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow"/>
+                    <Grid Height="25">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="0.75*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Interaction buttons -->
+                        <Button
+                            x:Name="btnCreatePlayer"
+                            Content="Tilføj"
+                            Grid.Column="0"
+                            Margin="0 0 5 0" Click="BtnCreatePlayer_Click"/>
+                        <Button
+                            x:Name="btnUpdatePlayer"
+                            Content="Redigér med ID"
+                            Grid.Column="1"
+                            Margin="5 0" Click="BtnUpdatePlayer_Click"/>
+                        <Button
+                            x:Name="btnDeletePlayer"
+                            Content="Slet med ID"
+                            Grid.Column="2"
+                            Margin="4.8,0,4.6,0" Height="25" VerticalAlignment="Bottom" Click="BtnDeletePlayer_Click"/>
+                        <Label
+                            Content="ID"
+                            Grid.Column="3"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Right"/>
+                        <TextBox
+                            x:Name="txtPlayerID"
+                            Grid.Column="4"
+                            Padding="2"
+                            Margin="5 0 0 0"/>
+                    </Grid>
+
+                    <Grid 
+                        Height="30"
+                        Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            x:Name="btnReadAllPlayers"
+                            Content="Vis alle spillere"
+                            Grid.Column="0"
+                            Margin="0 0 5 0" Click="BtnReadAllPlayers_Click"/>
+
+                        <Button
+                            x:Name="btnReadPlayersWithSponsorAndTournaments"
+                            Content="Vis spillere med sponsor og turneringstal"
+                            Grid.Column="1"
+                            Margin="5 0 0 0" Click="BtnReadPlayersWithSponsorAndTournaments_Click"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Tournaments-tab -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock 
+                        Text="Turneringer"
+                        FontWeight="Bold"/>
+                </TabItem.Header>
+
+                <StackPanel>
+                    <Grid Margin="0 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel 
+                            Grid.Column="0"
+                            Margin="0 0 10 75">
+                            <Label
+                                Content="Turneringsnavn"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtTournamentname"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                            <Label
+                                Content="DommerID"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtJudgeID"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="10 0 0 75">
+                            <Label
+                                Content="SpillerID"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtTournamentPlayerID"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid 
+                        x:Name="dgTournaments"
+                        Height="223"
+                        Margin="0,0,-0.4,7.5"
+                        RenderTransformOrigin="0.5,0.5"
+                        IsReadOnly="True"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow"/>
+                    <Grid Height="25">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="0.75*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Interaction buttons -->
+                        <Button
+                            x:Name="btnCreateTournament"
+                            Content="Tilføj"
+                            Grid.Column="0"
+                            Margin="0,0,4.6,0" Height="25" VerticalAlignment="Bottom" Click="BtnCreateTournament_Click"/>
+                        <Button
+                            x:Name="btnUpdateTournament"
+                            Content="Redigér med ID"
+                            Grid.Column="1"
+                            Margin="5 0" Click="BtnUpdateTournament_Click"/>
+                        <Button
+                            x:Name="btnDeleteTournament"
+                            Content="Slet med ID"
+                            Grid.Column="2"
+                            Margin="5 0" Click="BtnDeleteTournament_Click"/>
+                        <Label
+                            Content="ID"
+                            Grid.Column="3"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Right"/>
+                        <TextBox
+                            x:Name="txtTournamentID"
+                            Grid.Column="4"
+                            Padding="2"
+                            Margin="5 0 0 0"/>
+                    </Grid>
+
+                    <Grid 
+                        Height="30"
+                        Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            x:Name="btnReadAllTournaments"
+                            Content="Vis alle spillere"
+                            Grid.Column="0"
+                            Margin="0 0 5 0" Click="BtnReadAllTournaments_Click"/>
+
+                        <Button
+                            x:Name="btnReadAllTournamentsWithTypesAndRegisteredPlayers"
+                            Content="Vis spillere med sponsor og turneringstal"
+                            Grid.Column="1"
+                            Margin="5 0 0 0" Click="BtnReadAllTournamentsWithTypesAndRegisteredPlayers_Click"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Employees-tab -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock 
+                        Text="Ansatte"
+                        FontWeight="Bold"/>
+                </TabItem.Header>
+
+                <StackPanel>
+                    <Grid Margin="0 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel 
+                            Grid.Column="0"
+                            Margin="0 0 10 75">
+                            <Label
+                                Content="Medarbejdernavn"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtEmployeename"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                            <Label
+                                Content="Løn"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtSalary"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                            <Label 
+                                Content="Dommerlevel"
+                                FontWeight="Bold"/>
+                            <ComboBox
+                                x:Name="cbxJudgeLevel"
+                                Height="25"
+                                Width="130"
+                                Padding="2"
+                                Margin="0 -2.5 0 7.5"
+                                HorizontalAlignment="Left">
+                                <ComboBoxItem 
+                                    Content="1"/>
+                                <ComboBoxItem 
+                                    Content="2"/>
+                                <ComboBoxItem 
+                                    Content="3"/>
+                                <ComboBoxItem 
+                                    Content="4"/>
+                                <ComboBoxItem 
+                                    Content="5"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="10 0 0 75">
+                            <Label
+                                Content="Telefonnummer"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtEmployeePhonenumber"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                            <Label
+                                Content="Jobtype"
+                                FontWeight="Bold"/>
+                            <ComboBox
+                                x:Name="cbxJobtype"
+                                Height="25"
+                                Width="130"
+                                Padding="2"
+                                Margin="0 -2.5 0 7.5"
+                                HorizontalAlignment="Left">
+                                <ComboBoxItem 
+                                    Content="Dommer"/>
+                                <ComboBoxItem 
+                                    Content="Tekniker"/>
+                                <ComboBoxItem 
+                                    Content="Sælger"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid 
+                        x:Name="dgEmployees"
+                        Height="223"
+                        Margin="0,0,-0.4,7.5"
+                        RenderTransformOrigin="0.5,0.5"
+                        IsReadOnly="True"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow"/>
+                    <Grid Height="25">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="0.75*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Interaction buttons -->
+                        <Button
+                            x:Name="btnCreateEmployee"
+                            Content="Tilføj"
+                            Grid.Column="0"
+                            Margin="0 0 5 0" Click="BtnCreateEmployee_Click"/>
+                        <Button
+                            x:Name="btnUpdateEmployee"
+                            Content="Redigér med ID"
+                            Grid.Column="1"
+                            Margin="5 0" Click="BtnUpdateEmployee_Click"/>
+                        <Button
+                            x:Name="btnDeleteEmployee"
+                            Content="Slet med ID"
+                            Grid.Column="2"
+                            Margin="5 0" Click="BtnDeleteEmployee_Click"/>
+                        <Label
+                            Content="ID"
+                            Grid.Column="3"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Right"/>
+                        <TextBox
+                            x:Name="txtEmployeeID"
+                            Grid.Column="4"
+                            Padding="2"
+                            Margin="5 0 0 0"/>
+                    </Grid>
+
+                    <Grid 
+                        Height="30"
+                        Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            x:Name="btnReadAllEmployees"
+                            Content="Vis alle ansatte"
+                            Grid.Column="0"
+                            Margin="0 0 5 0" 
+                            Click="BtnReadAllEmployees_Click"/>
+
+                        <Button
+                            x:Name="btnReadAllEmployeesWithSalary"
+                            Content="Vis alle ansatte med løn"
+                            Grid.Column="1"
+                            Margin="5 0"/>
+
+                        <Button
+                            x:Name="btnReadTotalSalaryCost"
+                            Content="Vis sammenlagt løn"
+                            Grid.Column="2"
+                            Margin="5 0 0 0"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Sponsors-tab -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock 
+                        Text="Sponsorer"
+                        FontWeight="Bold"/>
+                </TabItem.Header>
+
+                <StackPanel>
+                    <Grid Margin="0 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel 
+                            Grid.Column="0"
+                            Margin="0 0 10 75">
+                            <Label
+                                Content="Firmanavn"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtCompanyname"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                            <Label
+                                Content="SpillerID"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtSponsorPlayerID"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="10 0 0 75">
+                            <Label
+                                Content="Branche"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtBusiness"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                            <Label
+                                Content="Sponsoreret beløb"
+                                FontWeight="Bold"/>
+                            <TextBox
+                                x:Name="txtSponsoredAmount"
+                                Padding="2"
+                                Margin="0 -2.5 120 7.5"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid 
+                        x:Name="dgSponsors"
+                        Height="223"
+                        Margin="0,0,-0.4,7.5"
+                        RenderTransformOrigin="0.5,0.5"
+                        IsReadOnly="True"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow"/>
+                    <Grid Height="25">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="0.75*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Interaction buttons -->
+                        <Button
+                            x:Name="btnCreateSponsor"
+                            Content="Tilføj"
+                            Grid.Column="0"
+                            Margin="0 0 5 0"/>
+                        <Button
+                            x:Name="btnUpdateSponsor"
+                            Content="Redigér med ID"
+                            Grid.Column="1"
+                            Margin="5 0"/>
+                        <Button
+                            x:Name="btnDeleteSponsor"
+                            Content="Slet med ID"
+                            Grid.Column="2"
+                            Margin="5 0"/>
+                        <Label
+                            Content="ID"
+                            Grid.Column="3"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Right"/>
+                        <TextBox
+                            x:Name="txtSponsorID"
+                            Grid.Column="4"
+                            Padding="2"
+                            Margin="5 0 0 0"/>
+                    </Grid>
+
+                    <Grid 
+                        Height="30"
+                        Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            x:Name="btnReadAllSponsors"
+                            Content="Vis alle ansatte"
+                            Grid.Column="0"
+                            Margin="0 0 5 0"/>
+
+                        <Button
+                            x:Name="btnTotalSponsoredAmount"
+                            Content="Totale sponsorerede beløb"
+                            Grid.Column="1"
+                            Margin="5 0"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Border>
+</Window>

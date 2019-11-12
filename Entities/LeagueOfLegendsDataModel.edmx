@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LeagueOfLegendsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ansatte">
+          <Key>
+            <PropertyRef Name="MedarbejderID" />
+          </Key>
+          <Property Name="MedarbejderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Navn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Telefonnummer" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="Løn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Jobtype" Type="varchar" MaxLength="30" />
+          <Property Name="DommerLevel" Type="int" />
+        </EntityType>
+        <EntityType Name="Spillere">
+          <Key>
+            <PropertyRef Name="SpillerID" />
+          </Key>
+          <Property Name="SpillerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Navn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="InGameNavn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Rang" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Telefonnummer" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="Turneringstype" Type="varchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sponsorer">
+          <Key>
+            <PropertyRef Name="SponsorID" />
+          </Key>
+          <Property Name="SponsorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Firmanavn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Branche" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SpillerID" Type="int" />
+          <Property Name="Spillernavn" Type="varchar" MaxLength="30" />
+          <Property Name="Udgift" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Turneringer">
+          <Key>
+            <PropertyRef Name="TurneringsID" />
+          </Key>
+          <Property Name="TurneringsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Turneringsnavn" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SpillerID" Type="int" />
+          <Property Name="Spillernavn" Type="varchar" MaxLength="30" />
+          <Property Name="SpillerTelefonnummer" Type="varchar" MaxLength="14" />
+          <Property Name="DommerID" Type="int" />
+          <Property Name="Dommernavn" Type="varchar" MaxLength="30" />
+          <Property Name="Dommertelefonnummer" Type="varchar" MaxLength="14" />
+          <Property Name="DommerLevel" Type="int" />
+        </EntityType>
+        <Association Name="FK_SponsorSpillere">
+          <End Role="Spillere" Type="Self.Spillere" Multiplicity="0..1" />
+          <End Role="Sponsorer" Type="Self.Sponsorer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spillere">
+              <PropertyRef Name="SpillerID" />
+            </Principal>
+            <Dependent Role="Sponsorer">
+              <PropertyRef Name="SpillerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TurneringsAnsatte">
+          <End Role="Ansatte" Type="Self.Ansatte" Multiplicity="0..1" />
+          <End Role="Turneringer" Type="Self.Turneringer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ansatte">
+              <PropertyRef Name="MedarbejderID" />
+            </Principal>
+            <Dependent Role="Turneringer">
+              <PropertyRef Name="DommerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TurneringsSpillere">
+          <End Role="Spillere" Type="Self.Spillere" Multiplicity="0..1" />
+          <End Role="Turneringer" Type="Self.Turneringer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spillere">
+              <PropertyRef Name="SpillerID" />
+            </Principal>
+            <Dependent Role="Turneringer">
+              <PropertyRef Name="SpillerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LeagueOfLegendsDBModelStoreContainer">
+          <EntitySet Name="Ansatte" EntityType="Self.Ansatte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Spillere" EntityType="Self.Spillere" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sponsorer" EntityType="Self.Sponsorer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turneringer" EntityType="Self.Turneringer" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SponsorSpillere" Association="Self.FK_SponsorSpillere">
+            <End Role="Spillere" EntitySet="Spillere" />
+            <End Role="Sponsorer" EntitySet="Sponsorer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TurneringsAnsatte" Association="Self.FK_TurneringsAnsatte">
+            <End Role="Ansatte" EntitySet="Ansatte" />
+            <End Role="Turneringer" EntitySet="Turneringer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TurneringsSpillere" Association="Self.FK_TurneringsSpillere">
+            <End Role="Spillere" EntitySet="Spillere" />
+            <End Role="Turneringer" EntitySet="Turneringer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LeagueOfLegendsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Ansatte">
+          <Key>
+            <PropertyRef Name="MedarbejderID" />
+          </Key>
+          <Property Name="MedarbejderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Navn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefonnummer" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Løn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Jobtype" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DommerLevel" Type="Int32" />
+          <NavigationProperty Name="Turneringers" Relationship="Self.FK_TurneringsAnsatte" FromRole="Ansatte" ToRole="Turneringer" />
+        </EntityType>
+        <EntityType Name="Spillere">
+          <Key>
+            <PropertyRef Name="SpillerID" />
+          </Key>
+          <Property Name="SpillerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Navn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InGameNavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rang" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefonnummer" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Turneringstype" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Sponsorers" Relationship="Self.FK_SponsorSpillere" FromRole="Spillere" ToRole="Sponsorer" />
+          <NavigationProperty Name="Turneringers" Relationship="Self.FK_TurneringsSpillere" FromRole="Spillere" ToRole="Turneringer" />
+        </EntityType>
+        <EntityType Name="Sponsorer">
+          <Key>
+            <PropertyRef Name="SponsorID" />
+          </Key>
+          <Property Name="SponsorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firmanavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Branche" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SpillerID" Type="Int32" />
+          <Property Name="Spillernavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Udgift" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Spillere" Relationship="Self.FK_SponsorSpillere" FromRole="Sponsorer" ToRole="Spillere" />
+        </EntityType>
+        <EntityType Name="Turneringer">
+          <Key>
+            <PropertyRef Name="TurneringsID" />
+          </Key>
+          <Property Name="TurneringsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Turneringsnavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SpillerID" Type="Int32" />
+          <Property Name="Spillernavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SpillerTelefonnummer" Type="String" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="DommerID" Type="Int32" />
+          <Property Name="Dommernavn" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Dommertelefonnummer" Type="String" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="DommerLevel" Type="Int32" />
+          <NavigationProperty Name="Ansatte" Relationship="Self.FK_TurneringsAnsatte" FromRole="Turneringer" ToRole="Ansatte" />
+          <NavigationProperty Name="Spillere" Relationship="Self.FK_TurneringsSpillere" FromRole="Turneringer" ToRole="Spillere" />
+        </EntityType>
+        <Association Name="FK_TurneringsAnsatte">
+          <End Role="Ansatte" Type="Self.Ansatte" Multiplicity="0..1" />
+          <End Role="Turneringer" Type="Self.Turneringer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ansatte">
+              <PropertyRef Name="MedarbejderID" />
+            </Principal>
+            <Dependent Role="Turneringer">
+              <PropertyRef Name="DommerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SponsorSpillere">
+          <End Role="Spillere" Type="Self.Spillere" Multiplicity="0..1" />
+          <End Role="Sponsorer" Type="Self.Sponsorer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spillere">
+              <PropertyRef Name="SpillerID" />
+            </Principal>
+            <Dependent Role="Sponsorer">
+              <PropertyRef Name="SpillerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TurneringsSpillere">
+          <End Role="Spillere" Type="Self.Spillere" Multiplicity="0..1" />
+          <End Role="Turneringer" Type="Self.Turneringer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spillere">
+              <PropertyRef Name="SpillerID" />
+            </Principal>
+            <Dependent Role="Turneringer">
+              <PropertyRef Name="SpillerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ansattes" EntityType="Self.Ansatte" />
+          <EntitySet Name="Spilleres" EntityType="Self.Spillere" />
+          <EntitySet Name="Sponsorers" EntityType="Self.Sponsorer" />
+          <EntitySet Name="Turneringers" EntityType="Self.Turneringer" />
+          <AssociationSet Name="FK_TurneringsAnsatte" Association="Self.FK_TurneringsAnsatte">
+            <End Role="Ansatte" EntitySet="Ansattes" />
+            <End Role="Turneringer" EntitySet="Turneringers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SponsorSpillere" Association="Self.FK_SponsorSpillere">
+            <End Role="Spillere" EntitySet="Spilleres" />
+            <End Role="Sponsorer" EntitySet="Sponsorers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TurneringsSpillere" Association="Self.FK_TurneringsSpillere">
+            <End Role="Spillere" EntitySet="Spilleres" />
+            <End Role="Turneringer" EntitySet="Turneringers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LeagueOfLegendsDBModelStoreContainer" CdmEntityContainer="DbEntities">
+          <EntitySetMapping Name="Ansattes">
+            <EntityTypeMapping TypeName="LeagueOfLegendsDBModel.Ansatte">
+              <MappingFragment StoreEntitySet="Ansatte">
+                <ScalarProperty Name="MedarbejderID" ColumnName="MedarbejderID" />
+                <ScalarProperty Name="Navn" ColumnName="Navn" />
+                <ScalarProperty Name="Telefonnummer" ColumnName="Telefonnummer" />
+                <ScalarProperty Name="Løn" ColumnName="Løn" />
+                <ScalarProperty Name="Jobtype" ColumnName="Jobtype" />
+                <ScalarProperty Name="DommerLevel" ColumnName="DommerLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Spilleres">
+            <EntityTypeMapping TypeName="LeagueOfLegendsDBModel.Spillere">
+              <MappingFragment StoreEntitySet="Spillere">
+                <ScalarProperty Name="SpillerID" ColumnName="SpillerID" />
+                <ScalarProperty Name="Navn" ColumnName="Navn" />
+                <ScalarProperty Name="InGameNavn" ColumnName="InGameNavn" />
+                <ScalarProperty Name="Rang" ColumnName="Rang" />
+                <ScalarProperty Name="Telefonnummer" ColumnName="Telefonnummer" />
+                <ScalarProperty Name="Turneringstype" ColumnName="Turneringstype" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sponsorers">
+            <EntityTypeMapping TypeName="LeagueOfLegendsDBModel.Sponsorer">
+              <MappingFragment StoreEntitySet="Sponsorer">
+                <ScalarProperty Name="SponsorID" ColumnName="SponsorID" />
+                <ScalarProperty Name="Firmanavn" ColumnName="Firmanavn" />
+                <ScalarProperty Name="Branche" ColumnName="Branche" />
+                <ScalarProperty Name="SpillerID" ColumnName="SpillerID" />
+                <ScalarProperty Name="Spillernavn" ColumnName="Spillernavn" />
+                <ScalarProperty Name="Udgift" ColumnName="Udgift" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turneringers">
+            <EntityTypeMapping TypeName="LeagueOfLegendsDBModel.Turneringer">
+              <MappingFragment StoreEntitySet="Turneringer">
+                <ScalarProperty Name="TurneringsID" ColumnName="TurneringsID" />
+                <ScalarProperty Name="Turneringsnavn" ColumnName="Turneringsnavn" />
+                <ScalarProperty Name="SpillerID" ColumnName="SpillerID" />
+                <ScalarProperty Name="Spillernavn" ColumnName="Spillernavn" />
+                <ScalarProperty Name="SpillerTelefonnummer" ColumnName="SpillerTelefonnummer" />
+                <ScalarProperty Name="DommerID" ColumnName="DommerID" />
+                <ScalarProperty Name="Dommernavn" ColumnName="Dommernavn" />
+                <ScalarProperty Name="Dommertelefonnummer" ColumnName="Dommertelefonnummer" />
+                <ScalarProperty Name="DommerLevel" ColumnName="DommerLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
